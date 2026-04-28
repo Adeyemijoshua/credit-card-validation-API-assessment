@@ -11,7 +11,7 @@ export const validateCard: RequestHandler = (req, res, next): void => {
       res.status(400).json({
         valid: false,
         cardType: 'Unknown',
-        message: parsed.error.errors[0].message,
+       message: parsed.error.issues[0].message,
       });
       return;
     }
