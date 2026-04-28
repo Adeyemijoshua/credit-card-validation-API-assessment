@@ -1,0 +1,552 @@
+{
+  "info": {
+    "name": "Card Number Validation API",
+    "description": "A complete Postman collection for testing the Card Number Validation API. Covers all happy paths, edge cases, and error scenarios.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Valid Cards",
+      "description": "Tests for valid card numbers that should return valid: true",
+      "item": [
+        {
+          "name": "Valid Visa Card",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"4111111111111111\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "Tests a valid Visa card number. Should return valid: true with cardType: Visa."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"valid\": true,\n  \"cardType\": \"Visa\",\n  \"message\": \"Card number is valid\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Valid Visa Card (Alternative)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"4532015112830366\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "Tests a second valid Visa card number. Should return valid: true with cardType: Visa."
+          }
+        },
+        {
+          "name": "Valid Mastercard",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"5500005555555559\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "Tests a valid Mastercard number. Should return valid: true with cardType: Mastercard."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"valid\": true,\n  \"cardType\": \"Mastercard\",\n  \"message\": \"Card number is valid\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Valid Mastercard (Alternative)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"5425233430109903\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "Tests a second valid Mastercard number. Should return valid: true with cardType: Mastercard."
+          }
+        },
+        {
+          "name": "Valid Verve Card",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"5061020000000000\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "Tests a valid Verve card number. Verve is the most widely used card network in Nigeria. Should return valid: true with cardType: Verve."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"valid\": true,\n  \"cardType\": \"Verve\",\n  \"message\": \"Card number is valid\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Invalid Cards",
+      "description": "Tests for card numbers that match a pattern but fail the Luhn checksum. Should return valid: false with a 200 status.",
+      "item": [
+        {
+          "name": "Invalid Visa — Fails Luhn",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"4111111111111112\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "Same as the valid Visa number but the last digit is changed from 1 to 2. This breaks the Luhn checksum. Should return valid: false with a 200 status code."
+          },
+          "response": [
+            {
+              "name": "Invalid Response",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"valid\": false,\n  \"cardType\": \"Visa\",\n  \"message\": \"Card number is invalid\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Invalid — Random Number",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"1234567890123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "A completely random 16-digit number. Does not match any card pattern and fails Luhn. Should return valid: false with cardType: Unknown."
+          },
+          "response": [
+            {
+              "name": "Invalid Response",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"valid\": false,\n  \"cardType\": \"Unknown\",\n  \"message\": \"Card number is invalid\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Invalid — All Zeros",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"0000000000000000\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "All zeros. Does not match any card pattern and fails Luhn. Should return valid: false with cardType: Unknown."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Edge Cases — Sanitization",
+      "description": "Tests that prove the sanitizer correctly strips spaces and dashes before validation.",
+      "item": [
+        {
+          "name": "Visa with Spaces",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"4111 1111 1111 1111\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "A valid Visa number formatted with spaces the way it appears on a physical card. The sanitizer should strip the spaces before validation. Should return valid: true."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"valid\": true,\n  \"cardType\": \"Visa\",\n  \"message\": \"Card number is valid\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Visa with Dashes",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"4111-1111-1111-1111\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "A valid Visa number formatted with dashes. The sanitizer should strip the dashes before validation. Should return valid: true."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "status": "OK",
+              "code": 200,
+              "body": "{\n  \"valid\": true,\n  \"cardType\": \"Visa\",\n  \"message\": \"Card number is valid\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Mastercard with Spaces",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"5500 0055 5555 5559\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "A valid Mastercard formatted with spaces. Should return valid: true after sanitization."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bad Input — 400 Errors",
+      "description": "Tests for malformed or missing input. Should return 400 Bad Request.",
+      "item": [
+        {
+          "name": "Missing Card Number",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "Sends an empty request body with no cardNumber field. Zod validation should catch this and return 400 with the message: Card number is required."
+          },
+          "response": [
+            {
+              "name": "Bad Request Response",
+              "status": "Bad Request",
+              "code": 400,
+              "body": "{\n  \"valid\": false,\n  \"cardType\": \"Unknown\",\n  \"message\": \"Card number is required\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Empty Card Number",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "Sends an empty string as the cardNumber. Zod min(1) validation should catch this and return 400 with the message: Card number cannot be empty."
+          },
+          "response": [
+            {
+              "name": "Bad Request Response",
+              "status": "Bad Request",
+              "code": 400,
+              "body": "{\n  \"valid\": false,\n  \"cardType\": \"Unknown\",\n  \"message\": \"Card number cannot be empty\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Non-Numeric Characters",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"abcd1234efgh5678\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "Sends a card number containing letters. After sanitization removes spaces and dashes, the digit check should catch remaining non-numeric characters and return 400."
+          },
+          "response": [
+            {
+              "name": "Bad Request Response",
+              "status": "Bad Request",
+              "code": 400,
+              "body": "{\n  \"valid\": false,\n  \"cardType\": \"Unknown\",\n  \"message\": \"Card number must contain only digits\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Special Characters",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": \"4111@1111#1111!1111\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "Sends a card number with special characters like @, #, !. These are not stripped by the sanitizer so the digit check should reject this with 400."
+          }
+        },
+        {
+          "name": "Number Sent as Integer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cardNumber\": 4111111111111111\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cards/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "cards", "validate"]
+            },
+            "description": "Sends the card number as a JSON integer instead of a string. Zod z.string() validation should catch this and return 400. This also shows why we always treat card numbers as strings — integers can lose precision on large numbers."
+          }
+        }
+      ]
+    }
+  ]
+}
